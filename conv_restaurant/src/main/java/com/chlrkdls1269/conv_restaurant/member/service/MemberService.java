@@ -1,7 +1,5 @@
 package com.chlrkdls1269.conv_restaurant.member.service;
 
-import java.util.List;
-
 import javax.security.auth.Subject;
 
 import org.slf4j.Logger;
@@ -9,48 +7,44 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.metanetglobal.LMS.student.controller.StudentContorller;
-import com.metanetglobal.LMS.student.model.StudentDto;
-import com.metanetglobal.LMS.student.model.StudentUpdateDto;
-import com.metanetglobal.LMS.student.model.Student;
-import com.metanetglobal.LMS.student.repository.IStudentRepository;
-
+import com.chlrkdls1269.conv_restaurant.member.model.MemberDto;
+import com.chlrkdls1269.conv_restaurant.member.repository.IMemberRepository;
 
 @Service
 public class MemberService implements IMemberService {
 	@Autowired
-	IMemberRepository studentRepository;
+	IMemberRepository memberRepository;
 	private static Logger logger = LoggerFactory.getLogger(MemberService.class.getName());
 	
 
-	public MemberDto findStudentById(String studentId) {
+	public MemberDto findStudentById(String memberId) {
 		logger.info("서비스");
-		logger.info("studentId {}",studentId);
-		System.out.println("service" + studentId);
-		return studentRepository.findStudentById(studentId);
+		logger.info("studentId {}",memberId);
+		System.out.println("service" + memberId);
+		return memberRepository.findStudentById(memberId);
 	}
 	
-	public void insertStudent(Student student) {
-		studentRepository.insertStudent(student);
+	public void insertStudent(MemberDto member) {
+		memberRepository.insertStudent(member);
 	}
 	
 	public void deleteStudent(String email) {
-		studentRepository.deleteStudent(email);
+		memberRepository.deleteStudent(email);
 	}
 	
-	public void updateStudent(StudentUpdateDto student) {
+	public void updateStudent(MemberDto member) {
 		logger.info("회원정보 수정중...");
-		studentRepository.updateStudent(student);
+		memberRepository.updateStudent(member);
 	}
 
 	@Override
-	public Student getStudentInfo(String studentId) {
-		return studentRepository.getStudentInfo(studentId);
+	public MemberDto getStudentInfo(String memberId) {
+		return memberRepository.getStudentInfo(memberId);
 	}
 
 	@Override
-	public String getPassword(String studentId) {
-		return studentRepository.getPassword(studentId);
+	public String getPassword(String memberId) {
+		return memberRepository.getPassword(memberId);
 	}
 
 }
