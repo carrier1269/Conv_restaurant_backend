@@ -1,6 +1,7 @@
 ### 우리들의 편의점 레스토랑 Application
 
-![image](https://github.com/carrier1269/conv_restaurant_backend/assets/58325946/7b4b4d70-2424-4247-ba4c-c94884dac491)
+![image](https://github.com/carrier1269/Conv_restaurant_backend/assets/58325946/104ac57d-f3e8-4aa3-92a9-8505faa29fde)
+
 
 ### Temp_Data_For_Test
 ![image](https://github.com/carrier1269/Conv_restaurant_backend/assets/58325946/228574dd-7467-430e-8c74-1006ffbb9ab1)
