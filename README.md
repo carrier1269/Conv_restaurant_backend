@@ -2,7 +2,6 @@
 
 #### 개발 팀원 : 3명
 - Soopeach : Android, Chan : Frontend, Louis : Backend
-- 백엔드 개발 인원 : 1명
 - 이 Repository는 백엔드 개발 전용 개인 Repository입니다.
 
 ![image](https://github.com/carrier1269/Conv_restaurant_backend/assets/58325946/104ac57d-f3e8-4aa3-92a9-8505faa29fde)
