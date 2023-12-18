@@ -16,3 +16,6 @@ https://documenter.getpostman.com/view/25550859/2s9YknA2n4
 ### 참고 문헌
 #### DB Account 추가
 - https://velog.io/@dongeranguk/SQL-Developer-%EA%B3%84%EC%A0%95-%EC%83%9D%EC%84%B1
+
+#### Develop PatchNote
+- v.1.0.0 "ERD, DB, 프로젝트 구조 -> ?(사진 URL 추가 예정)
