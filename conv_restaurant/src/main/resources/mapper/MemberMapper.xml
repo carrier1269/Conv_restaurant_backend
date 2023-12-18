@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- <mapper namespace="com.metanetglobal.LMS.student.repository.IStudentRepository"> -->
+<!-- <select id="findStudentById" parameterType="string" resultType="com.metanetglobal.LMS.student.model.StudentDto"> -->
+<!-- 	select student_name as name, student_email as email,  student_address as address, student_phone_number as phoneNumber, student_grade as grade, student_admission_year as admissionYear, password -->
+<!-- 	from student -->
+<!-- 	where student_id = #{studentId} -->
+<!-- </select> -->
+<!-- </mapper> -->
