@@ -6,6 +6,8 @@
 
 ![image](https://github.com/carrier1269/Conv_restaurant_backend/assets/58325946/20080d77-b7f3-4861-b2f1-381510e375c9)
 
+### API TEST Document -> Postman
+https://documenter.getpostman.com/view/25550859/2s9YknA2n4
 
 ### Temp_Data_For_Test
 ![image](https://github.com/carrier1269/Conv_restaurant_backend/assets/58325946/228574dd-7467-430e-8c74-1006ffbb9ab1)
