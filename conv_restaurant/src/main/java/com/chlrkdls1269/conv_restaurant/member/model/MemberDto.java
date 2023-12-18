@@ -4,13 +4,14 @@ import java.sql.Date;
 
 import lombok.Data;
 
+// @Getter @Setter @ToString
 @Data
 public class MemberDto {
-	private String name;
-	private String email;
-	private String address;
-	private String phoneNumber;
-	private String grade;
-	private Date admissionYear;
+	private String id;
 	private String password;
+	private String nickname;
+	private String email;
+	private int age;
+	private String gender;
+	private Date joinDate;
 }

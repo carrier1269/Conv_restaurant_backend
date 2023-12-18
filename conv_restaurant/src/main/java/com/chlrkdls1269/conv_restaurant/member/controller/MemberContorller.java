@@ -19,14 +19,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.metanetglobal.LMS.student.model.StudentDto;
-import com.metanetglobal.LMS.student.model.StudentUpdateDto;
-import com.metanetglobal.LMS.course.model.Course;
-import com.metanetglobal.LMS.course.service.ICourseService;
-import com.metanetglobal.LMS.role.model.Role;
-import com.metanetglobal.LMS.role.repository.IRoleRepository;
-import com.metanetglobal.LMS.student.model.Student;
-import com.metanetglobal.LMS.student.service.IStudentService;
+import com.chlrkdls1269.conv_restaurant.member.model.MemberDto;
+import com.chlrkdls1269.conv_restaurant.member.service.IMemberService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -34,8 +28,8 @@ import jakarta.servlet.http.HttpSession;
 public class MemberContorller {
 	@Autowired
 	IMemberService studentService;	
-	@Autowired
-	IRoleRepository roleRepository;
+//	@Autowired
+//	IRoleRepository roleRepository;
 	
 
 	private static Logger logger = LoggerFactory.getLogger(MemberContorller.class.getName());
@@ -67,27 +61,27 @@ public class MemberContorller {
 	@GetMapping("/mypage") //회원정보 조회
 	public MemberDto findStudentById(@RequestBody Map<String, String> map) {
 		String Id = map.get("studentId");
-		MemberDto student = studentService.findStudentById(Id);
-		logger.info("studentId={}", map.get("studentId"));
-		logger.info("student={}", student);
-		return student;
+		MemberDto member = studentService.findStudentById(Id);
+		logger.info("memberId={}", map.get("memberId"));
+		logger.info("member={}", member);
+		return member;
 	}
 	
 
 	@PostMapping("/signin") //회원가입
-	public String insertStudent(@RequestBody Student student) {
+	public String insertStudent(@RequestBody MemberDto member) {
 	    PasswordEncoder pwEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	   
-	    String unbcrypt_pwd = student.getPassword();
+	    String unbcrypt_pwd = member.getPassword();
 	    String bcrypt_pwd = pwEncoder.encode(unbcrypt_pwd);
 	      
-	    student.setPassword(bcrypt_pwd);
+	    member.setPassword(bcrypt_pwd);
 
-	    Role role = new Role();
-	    role.setStudentId(student.getStudentId());
-	    role.setRoleName("ROLE_USER");
-	    studentService.insertStudent(student);
-	    roleRepository.insertRole(role);
+//	    Role role = new Role();
+//	    role.setStudentId(member.getId());
+//	    role.setRoleName("ROLE_USER");
+	    studentService.insertStudent(member);
+//	    roleRepository.insertRole(role);
 	    
 	    return "ok";
 	}
@@ -109,7 +103,7 @@ public class MemberContorller {
 //	}
 	
 	@PatchMapping("/mypage/update")
-	public String updateStudent(@RequestBody StudentUpdateDto student, Principal principal){
+	public String updateStudent(@RequestBody MemberDto member, Principal principal){
 		String session_isCheck_userid = principal.getName();
 		
 		System.out.println(session_isCheck_userid);
@@ -118,15 +112,15 @@ public class MemberContorller {
 			try {
 				PasswordEncoder pwEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 				   
-			    String unbcrypt_pwd = student.getPassword();
+			    String unbcrypt_pwd = member.getPassword();
 			    String bcrypt_pwd = pwEncoder.encode(unbcrypt_pwd);
 			      
-			    student.setPassword(bcrypt_pwd);
+			    member.setPassword(bcrypt_pwd);
 				
-			    if (student.getStudentId().equals(session_isCheck_userid)) {
-			    	student.setStudentId(session_isCheck_userid);
+			    if (member.getId().equals(session_isCheck_userid)) {
+			    	member.setId(session_isCheck_userid);
 				    
-					studentService.updateStudent(student);
+					studentService.updateStudent(member);
 			    }else {
 			    	return "회원정보 수정 실패";
 			    }
@@ -143,33 +137,18 @@ public class MemberContorller {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
-	@Autowired
-	ICourseService courseService;
-	
 	
 	@DeleteMapping("/mypage/delete") //회원 정보 삭제
 	public String deleteStudent(@RequestBody Map<String, String> map, Principal principal) {
 		String session_isCheck_userid = principal.getName();		
 		if(session_isCheck_userid != null && !session_isCheck_userid.equals("")) {
 			try {
-				MemberDto student = studentService.findStudentById(session_isCheck_userid);
+				MemberDto member = studentService.findStudentById(session_isCheck_userid);
 				System.out.println();
 				String email = map.get("email");
-				System.out.println("session email : "+ email + " db email : " + student.getEmail());
-				if(email.equals(student.getEmail())){
+				System.out.println("session email : "+ email + " db email : " + member.getEmail());
+				if(email.equals(member.getEmail())){
 					System.out.println("삭제!!!!!!!!!!!!!!");
-					List<Course> courseList = courseService.getCourseList(session_isCheck_userid);
-					
-					System.out.println("리스트는!~~~~~: " + courseList);
-					
-					for(Course course : courseList) {
-						System.out.println("학생 id : " + session_isCheck_userid + "학생 강좌 리스트");
-						System.out.println(course.getCourseId());
-						
-						courseService.deleteCourse(session_isCheck_userid, course.getCourseId());
-					}
-
-					roleRepository.deleteRole(session_isCheck_userid);
 					
 					studentService.deleteStudent(email);
 					
