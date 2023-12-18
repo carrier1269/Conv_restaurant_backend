@@ -4,7 +4,8 @@
 - Soopeach : Android, Chan : Frontend, Louis : Backend
 - 이 Repository는 백엔드 개발 전용 개인 Repository입니다.
 
-![image](https://github.com/carrier1269/Conv_restaurant_backend/assets/58325946/104ac57d-f3e8-4aa3-92a9-8505faa29fde)
+![Uploading image.png…]()
+
 
 
 ### Temp_Data_For_Test
