@@ -1,4 +1,11 @@
-show user;
+DROP SEQUENCE COMMENTS_SEQ;
+DROP SEQUENCE HOT_RECIPE_SEQ;
+DROP SEQUENCE M_IMAGE_FILE_SEQ;
+DROP SEQUENCE P_IMAGE_FILE_SEQ;
+DROP SEQUENCE R_IMAGE_FILE_SEQ;
+DROP SEQUENCE REC_RECIPE_SEQ;
+DROP SEQUENCE RECIPE_BOARD_SEQ;
+DROP SEQUENCE WISHLIST_SEQ;
 
 /* 회원 */
 DROP TABLE MEMBER 
@@ -10,10 +17,6 @@ DROP TABLE WISHLIST
 
 /* 편의점 상품 */
 DROP TABLE PRODUCT 
-	CASCADE CONSTRAINTS;
-
-/* 게시판 이미지 파일 */
-DROP TABLE R_IMAGE_FILE 
 	CASCADE CONSTRAINTS;
 
 /* 인기 레시피 */
@@ -40,21 +43,18 @@ DROP TABLE BOARD
 DROP TABLE MF_COMPANY 
 	CASCADE CONSTRAINTS;
 
-/* 회원 이미지 파일 */
-DROP TABLE M_IMAGE_FILE 
+/* 레시피 게시글 -  댓글 */
+DROP TABLE COMMENTS 
 	CASCADE CONSTRAINTS;
-
-/* 상품 이미지 파일 */
+    
 DROP TABLE P_IMAGE_FILE 
 	CASCADE CONSTRAINTS;
     
-DROP SEQUENCE HOT_RECIPE_SEQ;
-DROP SEQUENCE M_IMAGE_FILE_SEQ;
-DROP SEQUENCE P_IMAGE_FILE_SEQ;
-DROP SEQUENCE R_IMAGE_FILE_SEQ;
-DROP SEQUENCE REC_RECIPE_SEQ;
-DROP SEQUENCE RECIPE_BOARD_SEQ;
-DROP SEQUENCE WISHLIST_SEQ;
+DROP TABLE R_IMAGE_FILE 
+	CASCADE CONSTRAINTS;
+    
+DROP TABLE M_IMAGE_FILE 
+	CASCADE CONSTRAINTS;
 
 /* 회원 */
 CREATE TABLE MEMBER (
@@ -65,10 +65,11 @@ CREATE TABLE MEMBER (
 	member_phonenumber VARCHAR2(50) NOT NULL, /* 휴대폰번호 */
 	member_password VARCHAR2(200) NOT NULL, /* 비밀번호 */
 	member_gender VARCHAR2(30) NOT NULL, /* 성별 */
-	member_age VARCHAR2(30) NOT NULL, /* 나이 */
+	member_age NUMBER NOT NULL, /* 나이 */
 	member_joindate DATE NOT NULL, /* 가입날짜 */
 	member_state VARCHAR2(4) NOT NULL, /* 가입상태 */
-	member_banstate DATE NOT NULL /* 신고여부 */
+	member_banstate DATE NOT NULL, /* 신고여부 */
+	member_image BLOB NOT NULL /* 회원 이미지 */
 );
 
 CREATE UNIQUE INDEX PK_MEMBER
@@ -107,6 +108,7 @@ CREATE TABLE PRODUCT (
 	product_id NUMBER NOT NULL, /* 편의점 상품 ID */
 	product_name VARCHAR2(50) NOT NULL, /* 상품 이름 */
 	product_price NUMBER NOT NULL, /* 가격 */
+	product_image BLOB NOT NULL, /* 상품 이미지 */
 	conv_store NUMBER, /* 편의점 ID */
 	category_id NUMBER, /* 상품 카테고리 ID */
 	product_mnfctrng_cmpn_id NUMBER /* 제조사 ID */
@@ -122,27 +124,6 @@ ALTER TABLE PRODUCT
 		CONSTRAINT PK_PRODUCT
 		PRIMARY KEY (
 			product_id
-		);
-
-/* 게시판 이미지 파일 */
-CREATE TABLE R_IMAGE_FILE (
-	r_image_file_id NUMBER NOT NULL, /* 이미지 파일 ID */
-	r_image_file_name VARCHAR2(50) NOT NULL, /* 이미지 파일명 */
-	r_image_file_path VARCHAR2(100) NOT NULL, /* 이미지 파일 저장 경로 */
-	r_image_file_type VARCHAR2(20) NOT NULL, /* 이미지 파일 확장자 타입 */
-	board_id NUMBER /* 편의점 게시판 ID */
-);
-
-CREATE UNIQUE INDEX PK_R_IMAGE_FILE
-	ON R_IMAGE_FILE (
-		r_image_file_id ASC
-	);
-
-ALTER TABLE R_IMAGE_FILE
-	ADD
-		CONSTRAINT PK_R_IMAGE_FILE
-		PRIMARY KEY (
-			r_image_file_id
 		);
 
 /* 인기 레시피 */
@@ -221,10 +202,12 @@ ALTER TABLE CONV_STORE
 CREATE TABLE BOARD (
 	board_id NUMBER NOT NULL, /* 편의점 게시판 ID */
 	board_name VARCHAR2(150) NOT NULL, /* 게시글 제목 */
+	board_content VARCHAR2(500) NOT NULL, /* 게시글 내용 */
 	board_cookingtime VARCHAR2(30) NOT NULL, /* 조리 시간 */
-	board_cookinglevel VARCHAR2(4) NOT NULL, /* 조리 난이도 */
+	board_cookinglevel NUMBER NOT NULL, /* 조리 난이도 */
 	board_totalprice NUMBER NOT NULL, /* 가격 */
-	board_likecount NUMBER, /* 좋아요 개수 */
+	board_likecount NUMBER NOT NULL, /* 좋아요 개수 */
+	board_image BLOB NOT NULL, /* 게시글 이미지 */
 	member_id VARCHAR2(100), /* 회원 ID */
 	product_id NUMBER /* 편의점 상품 ID */
 );
@@ -259,46 +242,23 @@ ALTER TABLE MF_COMPANY
 			mf_company_id
 		);
 
-/* 회원 이미지 파일 */
-CREATE TABLE M_IMAGE_FILE (
-	m_image_file_id NUMBER NOT NULL, /* 이미지 파일 ID */
-	m_image_file_name VARCHAR2(50) NOT NULL, /* 이미지 파일명 */
-	m_image_file_path VARCHAR2(100) NOT NULL, /* 이미지 파일 저장 경로 */
-	m_image_file_type VARCHAR2(20) NOT NULL, /* 이미지 파일 확장자 타입 */
-	member_id VARCHAR2(100) /* 회원 ID */
+/* 레시피 게시글 -  댓글 */
+CREATE TABLE COMMENTS (
+	comments_id NUMBER NOT NULL, /* 댓글 ID */
+	comments_content VARCHAR2(300) NOT NULL, /* 게시글 내용 */
+	board_id NUMBER /* 편의점 게시판 ID */
 );
 
-CREATE UNIQUE INDEX PK_M_IMAGE_FILE
-	ON M_IMAGE_FILE (
-		m_image_file_id ASC
+CREATE UNIQUE INDEX PK_COMMENTS
+	ON COMMENTS (
+		comments_id ASC
 	);
 
-ALTER TABLE M_IMAGE_FILE
+ALTER TABLE COMMENTS
 	ADD
-		CONSTRAINT PK_M_IMAGE_FILE
+		CONSTRAINT PK_COMMENTS
 		PRIMARY KEY (
-			m_image_file_id
-		);
-
-/* 상품 이미지 파일 */
-CREATE TABLE P_IMAGE_FILE (
-	p_image_file_id NUMBER NOT NULL, /* 이미지 파일 ID */
-	p_image_file_name VARCHAR2(50) NOT NULL, /* 이미지 파일명 */
-	p_image_file_path VARCHAR2(100) NOT NULL, /* 이미지 파일 저장 경로 */
-	p_image_file_type VARCHAR2(20) NOT NULL, /* 이미지 파일 확장자 타입 */
-	product_id NUMBER /* 편의점 상품 ID */
-);
-
-CREATE UNIQUE INDEX PK_P_IMAGE_FILE
-	ON P_IMAGE_FILE (
-		p_image_file_id ASC
-	);
-
-ALTER TABLE P_IMAGE_FILE
-	ADD
-		CONSTRAINT PK_P_IMAGE_FILE
-		PRIMARY KEY (
-			p_image_file_id
+			comments_id
 		);
 
 ALTER TABLE WISHLIST
@@ -351,16 +311,6 @@ ALTER TABLE PRODUCT
 			mf_company_id
 		);
 
-ALTER TABLE R_IMAGE_FILE
-	ADD
-		CONSTRAINT FK_BOARD_TO_R_IMAGE_FILE
-		FOREIGN KEY (
-			board_id
-		)
-		REFERENCES BOARD (
-			board_id
-		)ON DELETE CASCADE;
-
 ALTER TABLE HOT_RECIPE
 	ADD
 		CONSTRAINT FK_BOARD_TO_HOT_RECIPE
@@ -401,25 +351,24 @@ ALTER TABLE BOARD
 			product_id
 		);
 
-ALTER TABLE M_IMAGE_FILE
+ALTER TABLE COMMENTS
 	ADD
-		CONSTRAINT FK_MEMBER_TO_M_IMAGE_FILE
+		CONSTRAINT FK_BOARD_TO_COMMENTS
 		FOREIGN KEY (
-			member_id
+			board_id
 		)
-		REFERENCES MEMBER (
-			member_id
+		REFERENCES BOARD (
+			board_id
 		)ON DELETE CASCADE;
-
-ALTER TABLE P_IMAGE_FILE
-	ADD
-		CONSTRAINT FK_PRODUCT_TO_P_IMAGE_FILE
-		FOREIGN KEY (
-			product_id
-		)
-		REFERENCES PRODUCT (
-			product_id
-		)ON DELETE CASCADE;
+        
+CREATE SEQUENCE COMMENTS_SEQ
+       INCREMENT BY 1
+       START WITH 1
+       MINVALUE 1
+       MAXVALUE 9999
+       NOCYCLE
+       NOCACHE
+       NOORDER;
         
 CREATE SEQUENCE WISHLIST_SEQ
        INCREMENT BY 1
@@ -457,7 +406,7 @@ CREATE SEQUENCE REC_RECIPE_SEQ
        NOCACHE
        NOORDER;
        
-CREATE SEQUENCE M_IMAGE_FILE_SEQ
+CREATE SEQUENCE BOARD_SEQ
        INCREMENT BY 1
        START WITH 1
        MINVALUE 1
@@ -465,23 +414,29 @@ CREATE SEQUENCE M_IMAGE_FILE_SEQ
        NOCYCLE
        NOCACHE
        NOORDER;
-       
-CREATE SEQUENCE P_IMAGE_FILE_SEQ
-       INCREMENT BY 1
-       START WITH 1
-       MINVALUE 1
-       MAXVALUE 9999
-       NOCYCLE
-       NOCACHE
-       NOORDER;
-       
-CREATE SEQUENCE R_IMAGE_FILE_SEQ
-       INCREMENT BY 1
-       START WITH 1
-       MINVALUE 1
-       MAXVALUE 9999
-       NOCYCLE
-       NOCACHE
-       NOORDER;
-    
+        
+commit;
+
+DESC CATEGORY;
+
+-- 더미 데이터를 넣는 곳
+
+INSERT INTO CATEGORY VALUES(1, '음료/주류');
+INSERT INTO CATEGORY VALUES(2, '간식/스낵류');
+INSERT INTO CATEGORY VALUES(3, '국물류');
+
+desc member;
+insert into member values('chlrkdls1269', '최가인', 'chlrkdls1269@gmail.com', '롯데리아노예', '010-1234-5678', 'test1234', '남자', 25, sysdate, '1', sysdate, EMPTY_BLOB());
+
+desc product;
+
+INSERT INTO PRODUCT VALUES(1, '고래밥', 1200, EMPTY_BLOB(), 1, 1, 1);
+
+desc mf_company;
+
+insert into mf_company values(1, '오뚜기');
+
+desc conv_store;
+insert into conv_store values(1, '미니스탑');
+
 COMMIT;
