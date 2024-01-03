@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chlrkdls1269.conv_restaurant.board.repository.IBoardRepository">
+
+	<select id="searchAllBoard" resultType="com.chlrkdls1269.conv_restaurant.board.model.Board">
+		SELECT
+			board_id as boardId,
+	        board_name as boardName,
+	        board_content as boardContent,
+	        board_cookingtime as boardCookingtime,
+	        board_cookinglevel as boardCookinglevel,
+	        board_totalprice as boardTotalprice,
+	        board_likecount as boardLikecount,
+	        board_image as boardImage,
+	        member_id as memberId,
+	        product_id as productId
+	    FROM BOARD
+	    
+	    ORDER BY board_id
+	</select>
+	
+	<select id="searchBoard" parameterType="String" resultType="com.chlrkdls1269.conv_restaurant.board.model.Board">
+		SELECT
+			board_id as boardId,
+	        board_name as boardName,
+	        board_content as boardContent,
+	        board_cookingtime as boardCookingtime,
+	        board_cookinglevel as boardCookinglevel,
+	        board_totalprice as boardTotalprice,
+	        board_likecount as boardLikecount,
+	        board_image as boardImage,
+	        member_id as memberId,
+	        product_id as productId
+	    FROM BOARD
+	    
+	    WHERE member_id = #{memberId}
+	</select>
+	
+	<select id="findById" parameterType="int" resultType="com.chlrkdls1269.conv_restaurant.board.model.Board">
+		SELECT
+	        board_name as boardName,
+	        board_content as boardContent,
+	        board_cookingtime as boardCookingtime,
+	        board_cookinglevel as boardCookinglevel,
+	        board_totalprice as boardTotalprice,
+	        board_likecount as boardLikecount,
+	        board_image as boardImage,
+	        member_id as memberId,
+	        product_id as productId
+	    FROM BOARD
+	    
+	    WHERE board_id = #{boardId}
+	</select>
+	
+	<insert id="insertBoard" parameterType="com.chlrkdls1269.conv_restaurant.board.model.Board">
+		INSERT INTO BOARD (
+			board_id,
+			board_name,
+			board_content,
+			board_cookingtime,
+			board_cookinglevel,
+			board_totalprice,
+			board_likecount,
+			board_image,
+			member_id,
+			product_id
+		)
+		VALUES (
+			BOARD_SEQ.NEXTVAL,
+			#{boardName},
+			#{boardContent},
+			#{boardCookingtime},
+			#{boardCookinglevel},
+			#{boardTotalprice},
+			#{boardLikecount},
+			#{boardImage, jdbcType=BLOB},
+			#{memberId},
+			#{productId}
+		)
+	</insert>
+	
+	<update id="updateBoard" parameterType="com.chlrkdls1269.conv_restaurant.board.model.Board">
+	    UPDATE BOARD
+	    <set>
+	        <if test="board.boardName != null">board_name = #{board.boardName},</if>
+	        <if test="board.boardContent != null">board_content = #{board.boardContent},</if>
+	        <if test="board.boardCookingtime != null">board_cookingtime = #{board.boardCookingtime},</if>
+	        <if test="board.boardCookinglevel > 0">board_cookinglevel = #{board.boardCookinglevel},</if>
+	        <if test="board.boardTotalprice > 0">board_totalprice = #{board.boardTotalprice},</if>
+	        
+	        <!-- 좋아요 기능 동적쿼리문 -->
+			<if test="board.boardLikecount > 0">board_likecount = #{board.boardLikecount},</if>
+	        
+	        <if test="board.productId > 0">product_id = #{board.productId}</if>
+	    </set>
+	    
+	    WHERE board_id = #{boardId}
+	    <if test="username != null">
+	    	 and member_id = #{username}
+	    </if>
+	    
+	</update>
+
+	<delete id="deleteBoard" parameterType="map">
+	    DELETE FROM BOARD
+	    WHERE board_id = #{boardId} and member_id = #{username}
+	</delete>
+
+
+
+
+
+<!-- 	<select id="searchOrder" parameterType="int" resultType="com.metanet.finalproject.orders.model.Orders"> -->
+<!-- 		SELECT -->
+<!-- 	        orders_id as ordersId, -->
+<!-- 	        wash_id as washId, -->
+<!-- 	        orders_count as ordersCount, -->
+<!-- 	        orders_price as ordersPrice, -->
+<!-- 	        orders_date as ordersDate, -->
+<!-- 	        orders_status as OrdersStatus, -->
+<!-- 	        member_id as memberId, -->
+<!-- 	        laundry_id as laundryId -->
+<!-- 	    FROM ORDERS -->
+	    
+<!-- 	    WHERE member_id = #{memberId} -->
+	    
+<!-- 	    <if test="washId >= 0"> -->
+<!-- 	        AND wash_id = #{washId} -->
+<!-- 	    </if> -->
+	    
+<!-- 	    ORDER BY orders_id -->
+<!-- 	</select> -->
+	
+<!-- 	<insert id="insertOrder" parameterType="com.metanet.finalproject.orders.model.Orders"> -->
+<!-- 	INSERT INTO ORDERS ( -->
+<!-- 		orders_id, -->
+<!-- 		wash_id, -->
+<!-- 		orders_count, -->
+<!-- 		orders_price, -->
+<!-- 		orders_date, -->
+<!-- 		orders_comment, -->
+<!-- 		orders_status, -->
+<!-- 		orders_image_data, -->
+<!-- 		member_id, -->
+<!-- 		laundry_id -->
+<!-- 	) -->
+<!-- 	VALUES ( -->
+<!-- 		ORDERS_SEQ.NEXTVAL, -->
+<!-- 		#{washId}, -->
+<!-- 		#{ordersCount}, -->
+<!-- 		#{ordersPrice}, -->
+<!-- 		#{ordersDate}, -->
+<!-- 		#{ordersComment}, -->
+<!-- 		#{ordersStatus}, -->
+<!-- 		#{ordersImageData, jdbcType=BLOB}, -->
+<!-- 		#{memberId}, -->
+<!-- 		#{laundryId} -->
+<!-- 	) -->
+<!-- 	</insert> -->
+	
+<!-- 	<update id="updateOrder" parameterType="com.metanet.finalproject.orders.model.Orders"> -->
+<!-- 		UPDATE ORDERS -->
+<!-- 		<set> -->
+<!-- 			<if test="washId != null">wash_id = #{washId},</if> -->
+<!-- 			<if test="ordersCount != null">orders_count = #{ordersCount},</if> -->
+<!-- 			<if test="ordersPrice != null">orders_price = #{ordersPrice},</if> -->
+<!-- 			<if test="ordersDate != null">orders_date = #{ordersDate},</if> -->
+<!-- 			<if test="ordersComment != null">orders_comment = #{ordersComment},</if> -->
+<!-- 			<if test="ordersStatus != null">orders_status = #{ordersStatus},</if> -->
+<!-- 			<if test="memberId != null">member_id = #{memberId},</if> -->
+<!-- 			<if test="laundryId != null">laundry_id = #{laundryId}</if> -->
+<!-- 		</set> -->
+<!-- 		WHERE orders_id = #{ordersId} -->
+<!-- 	</update> -->
+	
+<!-- 	<delete id="deleteOrder" parameterType="com.metanet.finalproject.orders.model.Orders"> -->
+<!-- 		DELETE FROM ORDERS -->
+<!-- 		WHERE orders_id = #{ordersId} -->
+<!-- 	</delete> -->
+	
+</mapper>
