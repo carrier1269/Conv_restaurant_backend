@@ -40,6 +40,6 @@ public class MemberDto {
 	// 신고여부
 	private Date memberBanstate;
 	
-	// 회원 이미지
-	private byte[] memberImage;
+	// 권한
+	private String memberRole;
 }

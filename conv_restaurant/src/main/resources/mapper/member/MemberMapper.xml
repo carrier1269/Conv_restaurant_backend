@@ -1,10 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.chlrkdls1269.conv_restaurant.member.repository.IMemberRepository">
-<!-- <select id="findStudentById" parameterType="string" resultType="com.metanetglobal.LMS.student.model.StudentDto"> -->
-<!-- 	select student_name as name, student_email as email,  student_address as address, student_phone_number as phoneNumber, student_grade as grade, student_admission_year as admissionYear, password -->
-<!-- 	from student -->
-<!-- 	where student_id = #{studentId} -->
-<!-- </select> -->
+	<select id="findMemberById" resultType="com.chlrkdls1269.conv_restaurant.member.model.MemberDto">
+		SELECT
+			member_id as memberId,
+	        member_name as memberName,
+	        member_email as memberEmail,
+	        member_nickname as memberNickname,
+	        member_phonenumber as memberPhonenumber,
+	        member_password as memberPassword,
+	        member_gender as memberGender,
+	        member_age as memberAge,
+	        member_joindate as memberJoindate,
+	        member_state as memberState,
+	        member_banstate as memberBanstate,
+	        member_role as memberRole		
+	    FROM member
+	    
+	    WHERE member_id = #{memberId}
+	</select>
+	
+	<insert id="insertMember" parameterType="com.chlrkdls1269.conv_restaurant.member.model.MemberDto">
+	    INSERT INTO member (
+	        member_id,
+	        member_name,
+	        member_email,
+	        member_nickname,
+	        member_phonenumber,
+	        member_password,
+	        member_gender,
+	        member_age,
+	        member_joindate,
+	        member_state,
+	        member_banstate,
+	        member_role
+	    )
+	    VALUES (
+	        #{memberId},
+	        #{memberName},
+	        #{memberEmail},
+	        #{memberNickname},
+	        #{memberPhonenumber},
+	        #{memberPassword},
+	        #{memberGender},
+	        #{memberAge},
+	        #{memberJoindate},
+	        #{memberState},
+	        #{memberBanstate},
+	        #{memberRole}
+	    )
+	</insert>
+
+	<update id="updateMember" parameterType="map">
+	    UPDATE member
+	    <set>
+	        <if test="member.memberName != null">
+	            member_name = #{member.memberName},
+	        </if>
+	        <if test="member.memberEmail != null">
+	            member_email = #{member.memberEmail},
+	        </if>
+	        <if test="member.memberNickname != null">
+	            member_nickname = #{member.memberNickname},
+	        </if>
+	        <if test="member.memberPhonenumber != null">
+	            member_phonenumber = #{member.memberPhonenumber},
+	        </if>
+	    </set>
+	    WHERE member_id = #{memberId}
+	</update>
+	
+	<delete id="deleteMember" parameterType="String">
+	    DELETE FROM member
+	    WHERE member_id = #{memberId}
+	</delete>
+
+
+<!-- 	<select id="searchAllComments" resultType="com.chlrkdls1269.conv_restaurant.comments.model.Comments"> -->
+<!-- 		SELECT -->
+<!-- 			comments_id as commentsId, -->
+<!-- 			comments_content as commentsContent, -->
+<!-- 			board_id as boardId, -->
+<!-- 			member_id as memberId			 -->
+<!-- 	    FROM comments -->
+	    
+<!-- 	    WHERE board_Id = #{boardId} -->
+	    
+<!-- 	    ORDER BY commentsId -->
+<!-- 	</select> -->
+	
+<!-- 	<insert id="insertComments" parameterType="com.chlrkdls1269.conv_restaurant.comments.model.Comments"> -->
+<!-- 	    INSERT INTO comments ( -->
+<!-- 	        comments_id, -->
+<!-- 	        comments_content, -->
+<!-- 	        board_id, -->
+<!-- 	        member_id   -->
+<!-- 	    ) -->
+<!-- 	    VALUES ( -->
+<!-- 	        COMMENTS_SEQ.NEXTVAL, -->
+<!-- 	        #{commentsContent}, -->
+<!-- 	        #{boardId}, -->
+<!-- 	        #{memberId} -->
+<!-- 	    ) -->
+<!-- 	</insert> -->
+	
+
+	
+
 </mapper>

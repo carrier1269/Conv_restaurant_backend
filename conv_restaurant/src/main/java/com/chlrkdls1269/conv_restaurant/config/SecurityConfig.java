@@ -34,7 +34,7 @@ public class SecurityConfig {
             // 객체를 생성하여 반환할 때 Spring security 내부적으로
             // username에 대하여 사용자 정보, password를 비교하게 된다.
             // 이때 사용하는 userid에 대해서 사용할 파라미터, 매개변수를 명시한는 코드이
-            .usernameParameter("studentId")
+            .usernameParameter("memberId")
             // 로그인 성공했을 때 이동할 페이지 명시
             .defaultSuccessUrl("/loginSuccess"))
       
@@ -49,9 +49,10 @@ public class SecurityConfig {
       
       http.authorizeHttpRequests()
       .requestMatchers("/config/**").hasRole("ADMIN")
-      .requestMatchers("/mypage/**", "/lecturecomment/**").hasAnyRole("USER")
+      .requestMatchers("/board/**", "/comments/**", "/wishlist/**", "/member/**").hasAnyRole("USER")
       .requestMatchers("/**", "/css/**", "/js/**", "/image/**").permitAll()
-      .requestMatchers("/signin", "/login").permitAll();
+      .requestMatchers("/signin", "/login").permitAll()
+      .requestMatchers("/v3/api-docs/**","/swagger-ui/**").permitAll();
       // 빌터 패턴을 통해서 http 객체를 빌드하고 반환합니다.
       return http.build();
    }

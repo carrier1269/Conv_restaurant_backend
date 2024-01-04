@@ -13,6 +13,7 @@ import com.chlrkdls1269.conv_restaurant.board.model.Board;
 public interface IBoardRepository {
 	List<Board> searchAllBoard();
 	List<Board> searchBoard(String memberId);
+	List<Board> searchByCategoryId(int categoryId);
 	void insertBoard(Board board);
 	void updateBoard(@Param("board") Board board, @Param("boardId") int boardId, @Param("username") String username);
 	void deleteBoard(@Param("boardId") int boardId, @Param("username") String username);

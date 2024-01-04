@@ -22,6 +22,11 @@ public class BoardService implements IBoardService{
 	public List<Board> searchBoard(String memberId) {
 		return boardRepository.searchBoard(memberId);
 	}
+	
+	@Override
+	public List<Board> searchByCategoryId(int categoryId) {
+		return boardRepository.searchByCategoryId(categoryId);
+	}
 
 	@Override
 	public void insertBoard(Board board) {

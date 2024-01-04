@@ -13,11 +13,10 @@ import com.chlrkdls1269.conv_restaurant.member.model.MemberDto;
 @Repository
 @Mapper
 public interface IMemberRepository {
-	MemberDto findStudentById(@Param("memberId") String memberId);
-	void insertStudent(@Param("member") MemberDto member);
-	void deleteStudent(@Param("email") String email);
-	void updateStudent(@Param("member") MemberDto member);
-	MemberDto getStudentInfo(@Param("memberId") String memberId);
+	MemberDto findMemberById(@Param("memberId") String memberId);
+	void insertMember(MemberDto member);
+	void deleteMember(@Param("memberId") String memberId);
+	void updateMember(@Param("member") MemberDto member, @Param("memberId") String memberId);
 	String getPassword(@Param("memberId") String memberId);
 	
 }

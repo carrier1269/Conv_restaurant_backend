@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chlrkdls1269.conv_restaurant.comments.repository.ICommentsRepository">
+
+	<select id="searchAllComments" resultType="com.chlrkdls1269.conv_restaurant.comments.model.Comments">
+		SELECT
+			comments_id as commentsId,
+			comments_content as commentsContent,
+			board_id as boardId,
+			member_id as memberId			
+	    FROM comments
+	    
+	    WHERE board_Id = #{boardId}
+	    
+	    ORDER BY commentsId
+	</select>
+	
+	<insert id="insertComments" parameterType="com.chlrkdls1269.conv_restaurant.comments.model.Comments">
+	    INSERT INTO comments (
+	        comments_id,
+	        comments_content,
+	        board_id,
+	        member_id  
+	    )
+	    VALUES (
+	        COMMENTS_SEQ.NEXTVAL,
+	        #{commentsContent},
+	        #{boardId},
+	        #{memberId}
+	    )
+	</insert>
+	
+	<update id="updateComments" parameterType="map">
+	    UPDATE comments
+	    <set>
+	        <if test="comments.commentsContent != null">
+	            comments_content = #{comments.commentsContent},
+	        </if>
+	    </set>
+	    WHERE member_id = #{memberId}
+	    AND board_id = #{boardId}
+	    AND comments_id = #{commentsId}
+	</update>
+	
+	<delete id="deleteComments" parameterType="map">
+	    DELETE FROM comments
+	    WHERE member_id = #{memberId}
+	    AND board_id = #{boardId}
+	    AND comments_id = #{commentsId}
+	</delete>
+</mapper>
