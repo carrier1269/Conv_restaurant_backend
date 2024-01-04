@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.5</version>
+		<version>3.0.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -93,12 +93,6 @@
 		-->
 		
 		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-boot-starter</artifactId>
-			<version>3.0.0</version>
-		</dependency>
-		
-		<dependency>
 			  <groupId>io.jsonwebtoken</groupId>
 			  <artifactId>jjwt</artifactId>
 			  <version>0.12.3</version>
@@ -122,6 +116,24 @@
             <artifactId>commons-io</artifactId>
             <version>1.4</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-common</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+		
+		<dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>io.swagger.core.v3</groupId>-->
+<!--            <artifactId>swagger-annotations</artifactId>-->
+<!--            <version>2.2.16</version>-->
+<!--        </dependency>-->
 	</dependencies>
 
 	<build>

@@ -33,4 +33,7 @@ public class Board {
 	
 	// 편의점 상품 ID
 	private int productId;
+	
+	// 상품 카테고리 ID
+	private int categoryId;
 }

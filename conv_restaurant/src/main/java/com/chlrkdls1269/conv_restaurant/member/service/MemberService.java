@@ -15,36 +15,24 @@ public class MemberService implements IMemberService {
 	@Autowired
 	IMemberRepository memberRepository;
 	private static Logger logger = LoggerFactory.getLogger(MemberService.class.getName());
-	
-
-	public MemberDto findStudentById(String memberId) {
-		logger.info("서비스");
-		logger.info("studentId {}",memberId);
-		System.out.println("service" + memberId);
-		return memberRepository.findStudentById(memberId);
-	}
-	
-	public void insertStudent(MemberDto member) {
-		memberRepository.insertStudent(member);
-	}
-	
-	public void deleteStudent(String email) {
-		memberRepository.deleteStudent(email);
-	}
-	
-	public void updateStudent(MemberDto member) {
-		logger.info("회원정보 수정중...");
-		memberRepository.updateStudent(member);
-	}
-
 	@Override
-	public MemberDto getStudentInfo(String memberId) {
-		return memberRepository.getStudentInfo(memberId);
+	public MemberDto findMemberById(String memberId) {
+		return memberRepository.findMemberById(memberId);
 	}
-
+	@Override
+	public void insertMember(MemberDto member) {
+		memberRepository.insertMember(member);
+	}
+	@Override
+	public void deleteMember(String memberId) {
+		memberRepository.deleteMember(memberId);
+	}
+	@Override
+	public void updateMember(MemberDto member, String memberId) {
+		memberRepository.updateMember(member, memberId);
+	}
 	@Override
 	public String getPassword(String memberId) {
 		return memberRepository.getPassword(memberId);
 	}
-
 }
