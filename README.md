@@ -9,9 +9,6 @@
 ### API TEST Document -> Postman
 https://documenter.getpostman.com/view/25550859/2s9YknA2n4
 
-### Work Documents
-https://drive.google.com/drive/folders/1SV1yki4HDeiZBmSShO3Q7az8hV9jzkn-
-
 ### 참고 문헌
 #### DB Account 추가
 - https://velog.io/@dongeranguk/SQL-Developer-%EA%B3%84%EC%A0%95-%EC%83%9D%EC%84%B1
